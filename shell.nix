@@ -4,5 +4,6 @@ pkgs.mkShell {
     pkgs.p7zip
     pkgs.dos2unix
     pkgs.bc
+    pkgs.babashka
     ];
 }
