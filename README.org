@@ -6,7 +6,22 @@ Nix will automatically handle all dependencies for you. To set it up, you can fo
 
 You can find the CIDs and passwords of each monthly trading data archive listed on the "TRADING DATA" part of the [[https://qtf.quantfury.com][QTF & QDT Dapp Portal]]. Compare the results from this script with the "Number of trades" and "Spread revenue" listings on the "STATISTICS" tab as part of "QDT TOKENS".
 
+* Clojure/Babashka Implementation
+In addition to the bash script, a Clojure/Babashka version of the script has been implemented. This script can be run using either of the following commands:
+
+For Clojure:
+#+begin_src shell
+clojure -M -m quantfury-ipfs-verification.app
+#+end_src
+
+For Babashka:
+#+begin_src shell
+bb -m quantfury-ipfs-verification.app
+#+end_src
+
+Please note that the Babashka version is significantly slower to run, but it serves as an example of how code can be reused between Clojure and Babashka by leveraging reader conditionals.
+
 * Note
-Specify the list of published trade data archives by defining the CIDs and password in cids_passwords.txt. At the moment, we rely on https://ipfs.quantfury.com/ipfs to download the archive. However, we plan to integrate directly with IPFS in the future.
+Specify the list of published trade data archives by defining the CIDs and password in cids_passwords.{txt,edn}. At the moment, https://ipfs.quantfury.com/ipfs is used to download the archive. Future plans include direct integration with IPFS.
 
 Currently, the expected results are not automatically checked. This functionality may be added in the future by verifying against the Ethereum transactions for the QDT token.
