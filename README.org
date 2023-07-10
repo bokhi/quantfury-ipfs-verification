@@ -22,8 +22,7 @@ bb -m quantfury-ipfs-verification.app
 Please note that the Babashka version is significantly slower to run, but it serves as an example of how code can be reused between Clojure and Babashka by leveraging reader conditionals.
 
 * Note
-Specify the list of published trade data archives by defining the CIDs and password in cids_passwords.{txt,edn}. At the moment, https://ipfs.quantfury.com/ipfs is used to download the archive. Future plans include direct integration with IPFS.
-
+Specify the list of published trade data archives by defining the CIDs and password in cids_passwords.{txt,edn}.
 Currently, the expected results are not automatically checked. This functionality may be added in the future by verifying against the Ethereum transactions for the QDT token.
 
 * Identified discrepancy
@@ -75,4 +74,4 @@ tail qf20230601.csv -n 5
 2023-05-31 23:59:48.7760,FTM/USDT,0.3123,0.3124,,MANUAL,647.66839378,0.03238342
 #+end_src
 
-This issue has been reported to QTF Support. It is noted that this discrepancy may be due to the method of downloading data from https://ipfs.quantfury.com/ipfs. Further updates and resolution details will be provided upon receiving guidance from the support team.
+This issue has been reported to QTF Support.

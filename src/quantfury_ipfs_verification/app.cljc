@@ -33,6 +33,13 @@
       (io/copy (:body (http/get url {:as :stream})) zip-file))
     zip-file))
 
+(defn download-cid [cid]
+  (let [zip-file (io/file data-dir (str cid ".zip"))
+        command ["ipget" cid "-o" (.getPath zip-file)]]
+    (when-not (.exists zip-file)
+      (apply sh command))
+    zip-file))
+
 (defn decrypt-file [file password]
   (let [temp-file (-> file
                        .getName

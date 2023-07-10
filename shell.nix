@@ -7,5 +7,6 @@ pkgs.mkShell {
     pkgs.dos2unix
     pkgs.bc
     pkgs.babashka
+    pkgs.ipget
     ];
 }
