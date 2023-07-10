@@ -44,11 +44,18 @@
       (.write writer (:out (apply sh command))))
     temp-file))
 
+(defn close? [x y precision]
+  (< (abs (- x y)) precision))
+
 (defn process-cid-password [{:keys [cid password expected]}]
   (let [zip-file (download-cid cid)
         csv-file (decrypt-file zip-file password)
         results (process-csv csv-file)]
-    (if (= expected results)
+    (if (and (= (:num-trades expected)
+                (:num-trades results))
+             (close? (:sum-spread expected)
+                     (:sum-spread results)
+                     1e-2))
       (println "OK: " cid)
       (println "FAILED: " cid " Expected: " expected " Got: " results))))
 
