@@ -1,6 +1,7 @@
 (ns quantfury-ipfs-verification.app
-  (:require [babashka.process :as p]
-            [babashka.curl :as curl]
+  (:require [clojure.java.shell :refer [sh]]
+            #?(:bb [babashka.http-client :as http]
+               :clj [clj-http.client :as http])
             [clojure.edn :as edn]
             [clojure.data.csv :as csv]
             [clojure.java.io :as io]
@@ -28,7 +29,7 @@
   (let [url (str ipfs-url cid)
         zip-file (io/file data-dir (str cid ".zip"))]
     (when-not (.exists zip-file)
-      (io/copy (:body (curl/get url {:as :bytes})) zip-file))
+      (io/copy (:body (http/get url {:as :stream})) zip-file))
     zip-file))
 
 (defn decrypt-file [file password]
@@ -37,9 +38,10 @@
                        (str/split #"\.")
                        first
                        (java.io.File/createTempFile ".csv" ))
-        command   ["7z x -y -so" (str "-p" password) (.getPath file)]]
+        command   ["7z" "x" "-y" "-so" (str "-p" password) (.getPath file)]]
     (.deleteOnExit temp-file)
-    (apply p/shell {:out :write :out-file temp-file} command)
+    (with-open [writer (io/writer temp-file)]
+      (.write writer (:out (apply sh command))))
     temp-file))
 
 (defn process-cid-password [{:keys [cid password expected]}]
@@ -58,8 +60,8 @@
 (comment
 
   (def temp-csv (-> "QmVB76oSA1GmxZWHseLiivrcfNE4ws2HhE5m7g491v8ENx"
-                download-cid
-                (decrypt-file "lb[732;.P!ULSMwbOEXF")))
+                    download-cid
+                    (decrypt-file "lb[732;.P!ULSMwbOEXF")))
 
   (with-open [rdr (io/reader temp-csv)]
     (->> rdr
