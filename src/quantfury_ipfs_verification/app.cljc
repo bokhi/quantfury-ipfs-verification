@@ -9,6 +9,7 @@
 
 (def data-dir "data")
 (def ipfs-url "https://ipfs.quantfury.com/ipfs/")
+(def precision 1e-2)
 
 (defn calculate-results [csv-data]
   (reduce (fn [{:keys [num-trades sum-spread]} row]
@@ -51,11 +52,12 @@
   (let [zip-file (download-cid cid)
         csv-file (decrypt-file zip-file password)
         results (process-csv csv-file)]
+    (.delete csv-file)
     (if (and (= (:num-trades expected)
                 (:num-trades results))
              (close? (:sum-spread expected)
                      (:sum-spread results)
-                     1e-2))
+                     precision))
       (println "OK: " cid)
       (println "FAILED: " cid " Expected: " expected " Got: " results))))
 
