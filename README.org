@@ -25,3 +25,54 @@ Please note that the Babashka version is significantly slower to run, but it ser
 Specify the list of published trade data archives by defining the CIDs and password in cids_passwords.{txt,edn}. At the moment, https://ipfs.quantfury.com/ipfs is used to download the archive. Future plans include direct integration with IPFS.
 
 Currently, the expected results are not automatically checked. This functionality may be added in the future by verifying against the Ethereum transactions for the QDT token.
+
+* Identified discrepancy
+
+A discrepancy has been identified in the published trading data for April 2023.
+
+https://etherscan.io/tx/0x2f5bdaf3ccd877f37dcc01ec6197c5a841301569396f3c1d6f54baa1e8941bc7
+#+begin_src
+#	Name	Type	Data
+0	ipfsHash	string	QmUW2b6ai5Bm5P18RuTCf4FnPKkWBV64EizjSJBWar9xPK
+1	epochTime	uint256	1682888400
+2	weiAmount	uint256	879617026970000000000
+3	tokenAmount	uint256	235679400000000
+#+end_src
+https://etherscan.io/tx/0x0a5d7d1f869ab25fd700794f5ed27a1a11baaae7cbe40096c4a7e2cddef41059
+#+begin_src
+#	Name	Type	Data
+0	epoch	uint256	46
+1	password	string	gvC,olWGO,a7Ik50pY(h
+#+end_src
+https://etherscan.io/tx/0x2a2e18efbdbc3c8a31a1f03750d1e274706878cb9f58f470b33fcfa5760b3cf8
+#+begin_src
+#	Name	Type	Data
+0	to	address	0x79eb80D95da726f628b630839C256602a2aCAf2e
+1	value	uint256	235679400000000
+#+end_src
+
+This discrepancy manifests in the form of a difference in the expected and obtained results:
+#+begin_src sh
+FAILED: QmUW2b6ai5Bm5P18RuTCf4FnPKkWBV64EizjSJBWar9xPK Expected: {:num-trades 2356794 :sum-spread 1643828.3} Got: {:num-trades 2299968, :sum-spread 1619084.05071113M}
+#+end_src
+
+The root cause appears to be missing data for the last day of the month in the downloaded zip archive for April 2023:
+#+begin_src sh
+tail qf20230501.csv -n 5
+2023-04-30 00:44:55.1930,ATOM/USD,11.73455184,11.74002685,,MANUAL,102.214417,0.27981267
+2023-04-30 00:44:55.3076,ETH/USDT,1901.46,1901.47,,MANUAL,4.03900161,0.02019501
+2023-04-30 00:44:59.2205,ATOM/USDT,11.731,11.732,,MANUAL,4.26221124,0.00213111
+2023-04-30 00:45:06.5808,FIL/USD,5.55167613,5.55838602,,MANUAL,357.45557053,1.19924407
+2023-04-30 00:45:10.6554,MATIC/USDT,1,1.0001,,ORDER,1111.99364575,0.05559968
+#+end_src
+It is expected to have data until 23:59:XX, as observed in more recent files:
+#+begin_src sh
+tail qf20230601.csv -n 5
+2023-05-31 23:59:23.7890,MANA/USDT,0.463,0.4633,,ORDER,8268.73385013,1.24031008
+2023-05-31 23:59:32.6360,ETH/USDT,1873.62,1873.63,,MANUAL,0.52836069,0.0026418
+2023-05-31 23:59:40.0300,FIL/USDT,4.692,4.693,,MANUAL,23.58996354,0.01179498
+2023-05-31 23:59:44.2975,BTC/USDT,27209.05,27209.06,,MANUAL,0.00073481,0.00000367
+2023-05-31 23:59:48.7760,FTM/USDT,0.3123,0.3124,,MANUAL,647.66839378,0.03238342
+#+end_src
+
+This issue has been reported to QTF Support. It is noted that this discrepancy may be due to the method of downloading data from https://ipfs.quantfury.com/ipfs. Further updates and resolution details will be provided upon receiving guidance from the support team.
