@@ -1,5 +1,5 @@
 * QF Data Verification
-This project aims to check spread computation against IPFS of trades published by Quantfury.
+This project aims to check spread computation against *IPFS* of trades published by *Quantfury*.
 
 * Usage
 *Nix* will automatically handle all dependencies for you. To set it up, you can follow the instructions on the [[https://nixos.org/download.html][official Nix website]]. After the installation, use the following command to run the script:
@@ -14,17 +14,16 @@ The trade data archives to be verified should be defined by adding the respectiv
 
 * Note
 
-Currently, although the IPFS archive is downloaded through a IPFS node and not simply the QTF IPFS Gateway, the expected results are still taken from the Dapp Portal and not directly by checking the Eheterum transactions made for the QDT token. 
+Currently, although the *IPFS* archive is downloaded through a *IPFS* node and not simply the QTF *IPFS* Gateway, the expected results are still taken from the Dapp Portal and not directly by checking the Eheterum transactions made for the QDT token. 
 
 * Deprecation Note
-The bash implementation of this script is now deprecated in favor of the Clojure version.
+The =verify.sh= bash implementation of this script is now deprecated in favor of the *Clojure* version.
 
-A babashka version also exists:
+A *Babashka* version also exists:
 #+begin_src shell
 bb -m quantfury-ipfs-verification.app
 #+end_src
-But please note that the Babashka version is significantly slower to run, and only left as an example of how code can be reused between Clojure and Babashka by leveraging reader conditionals.
-
+But please note that the *Babashka* version is significantly slower to run, and only left as an example of how code can be reused between *Clojure* and *Babashka* by leveraging reader conditionals.
 
 * Identified discrepancy
 
