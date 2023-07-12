@@ -2,28 +2,29 @@
 This project aims to check spread computation against IPFS of trades published by Quantfury.
 
 * Usage
-Nix will automatically handle all dependencies for you. To set it up, you can follow the instructions on the [[https://nixos.org/download.html][official Nix website]]. After the installation, simply run ./verify.sh to execute the script.
+Nix will automatically handle all dependencies for you. To set it up, you can follow the instructions on the [[https://nixos.org/download.html][official Nix website]]. After the installation, use the following command to run the script:
 
-You can find the CIDs and passwords of each monthly trading data archive listed on the "TRADING DATA" part of the [[https://qtf.quantfury.com][QTF & QDT Dapp Portal]]. Compare the results from this script with the "Number of trades" and "Spread revenue" listings on the "STATISTICS" tab as part of "QDT TOKENS".
-
-* Clojure/Babashka Implementation
-In addition to the bash script, a Clojure/Babashka version of the script has been implemented. This script can be run using either of the following commands:
-
-For Clojure:
 #+begin_src shell
 clojure -M -m quantfury-ipfs-verification.app
 #+end_src
 
-For Babashka:
+The CIDs and passwords of each monthly trading data archive are listed in the "TRADING DATA" part of the [[https://qtf.quantfury.com][QTF & QDT Dapp Portal]]. The script verifies the data against the "Number of trades" and "Spread revenue" listings on the "STATISTICS" tab of "QDT TOKENS", as they appear on the Dapp portal.
+
+The trade data archives to be verified should be defined by adding the respective CIDs, passwords and expected results into =verification_info.edn=.
+
+* Note
+
+Currently, although the IPFS archive is downloaded through a IPFS node and not simply the QTF IPFS Gateway, the expected results are still taken from the Dapp Portal and not directly by checking the Eheterum transactions made for the QDT token. 
+
+* Deprecation Note
+The bash implementation of this script is now deprecated in favor of the Clojure version.
+
+A babashka version also exists:
 #+begin_src shell
 bb -m quantfury-ipfs-verification.app
 #+end_src
+But please note that the Babashka version is significantly slower to run, and only left as an example of how code can be reused between Clojure and Babashka by leveraging reader conditionals.
 
-Please note that the Babashka version is significantly slower to run, but it serves as an example of how code can be reused between Clojure and Babashka by leveraging reader conditionals.
-
-* Note
-Specify the list of published trade data archives by defining the CIDs and password in cids_passwords.{txt,edn}.
-Currently, the expected results are not automatically checked. This functionality may be added in the future by verifying against the Ethereum transactions for the QDT token.
 
 * Identified discrepancy
 
@@ -42,12 +43,6 @@ https://etherscan.io/tx/0x0a5d7d1f869ab25fd700794f5ed27a1a11baaae7cbe40096c4a7e2
 #	Name	Type	Data
 0	epoch	uint256	46
 1	password	string	gvC,olWGO,a7Ik50pY(h
-#+end_src
-https://etherscan.io/tx/0x2a2e18efbdbc3c8a31a1f03750d1e274706878cb9f58f470b33fcfa5760b3cf8
-#+begin_src
-#	Name	Type	Data
-0	to	address	0x79eb80D95da726f628b630839C256602a2aCAf2e
-1	value	uint256	235679400000000
 #+end_src
 
 This discrepancy manifests in the form of a difference in the expected and obtained results:
@@ -74,4 +69,4 @@ tail qf20230601.csv -n 5
 2023-05-31 23:59:48.7760,FTM/USDT,0.3123,0.3124,,MANUAL,647.66839378,0.03238342
 #+end_src
 
-This issue has been reported to QTF Support.
+This issue has been reported to QTF Support, as a result a new archive QmXb1QDbQeE4qexbE5FXD4bgNvmYupzWtr2HPSqb5SHkFG has been uploaded and linked on the QTF Portal.

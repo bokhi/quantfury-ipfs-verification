@@ -1,8 +1,10 @@
 [
  {:period "01/05/23 - 01/06/23"	:cid "QmVB76oSA1GmxZWHseLiivrcfNE4ws2HhE5m7g491v8ENx"	:password "lb[732;.P!ULSMwbOEXF" :expected {:num-trades 2154389 :sum-spread 1351436.83}}
 
- ;; missing trades on last day
- {:period "01/04/23 - 01/05/23"	:cid "QmUW2b6ai5Bm5P18RuTCf4FnPKkWBV64EizjSJBWar9xPK"	:password "gvC,olWGO,a7Ik50pY(h" :expected {:num-trades 2356794 :sum-spread 1643828.3}}
+ {:period "01/04/23 - 01/05/23"	:cid "QmUW2b6ai5Bm5P18RuTCf4FnPKkWBV64EizjSJBWar9xPK"	:password "gvC,olWGO,a7Ik50pY(h" :expected {:num-trades 2356794 :sum-spread 1643828.3}
+  :info "archive with missing trades on last day uploaded initially published: https://etherscan.io/tx/0x2f5bdaf3ccd877f37dcc01ec6197c5a841301569396f3c1d6f54baa1e8941bc7"}
+ {:period "01/04/23 - 01/05/23"	:cid "QmXb1QDbQeE4qexbE5FXD4bgNvmYupzWtr2HPSqb5SHkFG"	:password "gvC,olWGO,a7Ik50pY(h" :expected {:num-trades 2356794 :sum-spread 1643828.3}
+  :info "fixed archive with missing trades uploaded on the QTF Portal"}
 
  {:period "01/03/23 - 01/04/23"	:cid "QmehKdYKmcwj2eoC61HrA5tZUeGpqtTEkL9d39mhdtF64T"	:password "v3+4u@r;46Tl!;=Qk)3C" :expected {:num-trades 2598919 :sum-spread 2310288.34}}
  {:period "01/02/23 - 01/03/23"	:cid "QmWXhwgRH2g3KBRKSc1zSpMGfT7XSMEDgDARBTbFCu91Lc"	:password "Ug8CY>3{k;KSUm#%JTRR" :expected {:num-trades 2261926 :sum-spread 1773890.14}}

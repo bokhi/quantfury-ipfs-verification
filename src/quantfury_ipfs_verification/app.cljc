@@ -69,7 +69,7 @@
       (println "FAILED: " cid " Expected: " expected " Got: " results))))
 
 (defn -main []
-  (let [cids-passwords (edn/read-string (slurp "cids_passwords.edn"))]
+  (let [cids-passwords (edn/read-string (slurp "verification_info.edn"))]
     (doseq [cp cids-passwords]
       (process-cid-password cp))))
 
