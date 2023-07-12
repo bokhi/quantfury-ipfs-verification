@@ -2,13 +2,13 @@
 This project aims to check spread computation against IPFS of trades published by Quantfury.
 
 * Usage
-Nix will automatically handle all dependencies for you. To set it up, you can follow the instructions on the [[https://nixos.org/download.html][official Nix website]]. After the installation, use the following command to run the script:
+*Nix* will automatically handle all dependencies for you. To set it up, you can follow the instructions on the [[https://nixos.org/download.html][official Nix website]]. After the installation, use the following command to run the script:
 
 #+begin_src shell
 clojure -M -m quantfury-ipfs-verification.app
 #+end_src
 
-The CIDs and passwords of each monthly trading data archive are listed in the "TRADING DATA" part of the [[https://qtf.quantfury.com][QTF & QDT Dapp Portal]]. The script verifies the data against the "Number of trades" and "Spread revenue" listings on the "STATISTICS" tab of "QDT TOKENS", as they appear on the Dapp portal.
+The CIDs and passwords of each monthly trading data archive are listed in the =TRADING DATA= part of the [[https://qtf.quantfury.com][QTF & QDT Dapp Portal]]. The script verifies the data against the =Number of trades= and =Spread revenue= listings on the =STATISTICS= tab of =QDT TOKENS=, as they appear on the Dapp portal.
 
 The trade data archives to be verified should be defined by adding the respective CIDs, passwords and expected results into =verification_info.edn=.
 

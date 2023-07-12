@@ -29,6 +29,7 @@
 (defn download-cid [cid]
   (let [url (str ipfs-url cid)
         zip-file (io/file data-dir (str cid ".zip"))]
+    (io/make-parents zip-file)
     (when-not (.exists zip-file)
       (io/copy (:body (http/get url {:as :stream})) zip-file))
     zip-file))
@@ -36,6 +37,7 @@
 (defn download-cid [cid]
   (let [zip-file (io/file data-dir (str cid ".zip"))
         command ["ipget" cid "-o" (.getPath zip-file)]]
+    (io/make-parents zip-file)
     (when-not (.exists zip-file)
       (apply sh command))
     zip-file))
